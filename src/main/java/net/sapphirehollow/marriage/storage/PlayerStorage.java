@@ -93,6 +93,13 @@ public class PlayerStorage implements ConfigurationSerializable {
         this.preferredColor = preferredColor;
     }
 
+    public String getChatPrefix() {
+        if (engagements.size() != 0 || marriages.size() != 0) {
+            return this.preferredColor + "\u2665";
+        }
+        return "";
+    }
+
     @Override
     public Map<String, Object> serialize() {
         Map<String, Object> map = new HashMap<>();
