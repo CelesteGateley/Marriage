@@ -1,13 +1,11 @@
 package net.sapphirehollow.marriage.storage;
 
+import net.sapphirehollow.marriage.Marriage;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PlayerStorage implements ConfigurationSerializable {
 
@@ -16,17 +14,20 @@ public class PlayerStorage implements ConfigurationSerializable {
     private final List<String> engagements;
     private final List<String> marriages;
     private String preferredColor;
+    private boolean teleportToggle;
 
     public PlayerStorage() {
         engagements = new ArrayList<>();
         marriages = new ArrayList<>();
         preferredColor = DEFAULT_COLOR;
+        teleportToggle = false;
     }
 
     public PlayerStorage(Map<String, Object> data) {
         engagements = (List<String>) data.getOrDefault("engagements", new ArrayList<>());
         marriages = (List<String>) data.getOrDefault("marriages", new ArrayList<>());
         preferredColor = "" + data.getOrDefault("preferredColor", DEFAULT_COLOR);
+        teleportToggle = (boolean) data.getOrDefault("teleportToggle", false);
     }
 
     public List<String> getEngagements() {
@@ -93,11 +94,37 @@ public class PlayerStorage implements ConfigurationSerializable {
         this.preferredColor = preferredColor;
     }
 
+    public List<String> getAllPartnerUuids() {
+        List<String> uuids = new ArrayList<>(marriages);
+        uuids.addAll(engagements);
+        return uuids;
+    }
+
+    public List<OfflinePlayer> getAllPartners() {
+        List<OfflinePlayer> partners = new ArrayList<>();
+        for (String uuid : marriages) {
+            partners.add(Marriage.instance.getServer().getOfflinePlayer(UUID.fromString(uuid)));
+        }
+        for (String uuid : engagements) {
+            partners.add(Marriage.instance.getServer().getOfflinePlayer(UUID.fromString(uuid)));
+        }
+        return partners;
+    }
+
     public String getChatPrefix() {
         if (engagements.size() != 0 || marriages.size() != 0) {
             return this.preferredColor + "\u2665";
         }
         return "";
+    }
+
+    public boolean allowTeleport() {
+        return !teleportToggle;
+    }
+
+    public boolean toggleTeleport() {
+        teleportToggle = !teleportToggle;
+        return !teleportToggle;
     }
 
     @Override
