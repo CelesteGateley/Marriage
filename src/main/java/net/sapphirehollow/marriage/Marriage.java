@@ -14,10 +14,5 @@ public final class Marriage extends JavaPlugin {
         playerStorageController = new PlayerStorageController(this, "storage.yml");
     }
 
-    @Override
-    public void onDisable() {
-        // Plugin shutdown logic
-    }
-
-    public static PlayerStorageController getPlayerStorageController() { return playerStorageController;}
+    public static PlayerStorageController getPlayerStorageController() { return playerStorageController; }
 }
