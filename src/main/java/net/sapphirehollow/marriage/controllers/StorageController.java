@@ -7,15 +7,16 @@ import xyz.fluxinc.fluxcore.configuration.ConfigurationManager;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
-public class PlayerStorageController extends ConfigurationManager<Marriage> {
+public class StorageController extends ConfigurationManager<Marriage> {
     /**
      * A Class used for managing configuration files within a FluxCore plugin
      *
      * @param instance      The plugin that is being used
      * @param configuration The name of the configuration file
      */
-    public PlayerStorageController(Marriage instance, String configuration) {
+    public StorageController(Marriage instance, String configuration) {
         super(instance, configuration);
         if (!this.getConfiguration().contains("id-map")) {
             this.getConfiguration().set("id-map", new HashMap<String, String>());
@@ -42,10 +43,9 @@ public class PlayerStorageController extends ConfigurationManager<Marriage> {
         names.put(name, uuid);
     }
 
-    public String getOfflinePlayer(String name) {
+    public OfflinePlayer getOfflinePlayer(String name) {
         Map<String, String> names = this.getGeneric("id-map");
-        if (names.containsKey(name)) return names.get(name);
-        OfflinePlayer player = Marriage.instance.getServer().getOfflinePlayer(name);
-        return player.getUniqueId().toString();
+        if (names.containsKey(name)) return Marriage.instance.getServer().getOfflinePlayer(UUID.fromString(names.get(name)));
+        return Marriage.instance.getServer().getOfflinePlayer(name);
     }
 }
