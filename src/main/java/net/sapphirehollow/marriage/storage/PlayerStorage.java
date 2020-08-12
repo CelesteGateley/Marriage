@@ -1,9 +1,8 @@
 package net.sapphirehollow.marriage.storage;
 
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,11 +41,11 @@ public class PlayerStorage implements ConfigurationSerializable {
         return preferredColor;
     }
 
-    public boolean isMarried(Player player) {
+    public boolean isMarried(OfflinePlayer player) {
         return marriages.contains(player.getUniqueId().toString());
     }
 
-    public boolean isEngaged(Player player) {
+    public boolean isEngaged(OfflinePlayer player) {
         return marriages.contains(player.getUniqueId().toString());
     }
 
@@ -58,19 +57,19 @@ public class PlayerStorage implements ConfigurationSerializable {
         return marriages.contains(uuid);
     }
 
-    public void addEngagement(Player player) {
+    public void addEngagement(OfflinePlayer player) {
         engagements.add(player.getUniqueId().toString());
     }
 
-    public void removeEngagement(Player player) {
+    public void removeEngagement(OfflinePlayer player) {
         engagements.remove(player.getUniqueId().toString());
     }
 
-    public void addMarriage(Player player) {
+    public void addMarriage(OfflinePlayer player) {
         marriages.add(player.getUniqueId().toString());
     }
 
-    public void removeMarriage(Player player) {
+    public void removeMarriage(OfflinePlayer player) {
         marriages.remove(player.getUniqueId().toString());
     }
 

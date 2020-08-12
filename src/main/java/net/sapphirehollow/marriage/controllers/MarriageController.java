@@ -2,19 +2,20 @@ package net.sapphirehollow.marriage.controllers;
 
 import net.sapphirehollow.marriage.Marriage;
 import net.sapphirehollow.marriage.storage.PlayerStorage;
-import org.bukkit.entity.Player;
+import org.bukkit.OfflinePlayer;
 
 public class MarriageController {
 
-    public static boolean isMarriedTo(Player player1, Player player2) {
+
+    public static boolean isMarriedTo(OfflinePlayer player1, OfflinePlayer player2) {
         return Marriage.getPlayerStorageController().getPlayerStorage(player1).isMarried(player2);
     }
 
-    public static boolean isEngagedTo(Player player1, Player player2) {
+    public static boolean isEngagedTo(OfflinePlayer player1, OfflinePlayer player2) {
         return Marriage.getPlayerStorageController().getPlayerStorage(player1).isEngaged(player2);
     }
 
-    public static boolean marryPlayers(Player player1, Player player2) {
+    public static boolean marryPlayers(OfflinePlayer player1, OfflinePlayer player2) {
         PlayerStorage player1Storage = Marriage.getPlayerStorageController().getPlayerStorage(player1);
         PlayerStorage player2Storage = Marriage.getPlayerStorageController().getPlayerStorage(player2);
         if (!player1Storage.isEngaged(player2)) return false;
@@ -28,7 +29,7 @@ public class MarriageController {
         return true;
     }
 
-    public static boolean forceMarryPlayers(Player player1, Player player2) {
+    public static boolean forceMarryPlayers(OfflinePlayer player1, OfflinePlayer player2) {
         PlayerStorage player1Storage = Marriage.getPlayerStorageController().getPlayerStorage(player1);
         PlayerStorage player2Storage = Marriage.getPlayerStorageController().getPlayerStorage(player2);
         player1Storage.removeEngagement(player2);
@@ -40,7 +41,7 @@ public class MarriageController {
         return true;
     }
 
-    public static boolean engagePlayers(Player player1, Player player2) {
+    public static boolean engagePlayers(OfflinePlayer player1, OfflinePlayer player2) {
         PlayerStorage player1Storage = Marriage.getPlayerStorageController().getPlayerStorage(player1);
         PlayerStorage player2Storage = Marriage.getPlayerStorageController().getPlayerStorage(player2);
         if (player1Storage.isMarried(player2)) return false;
@@ -52,7 +53,7 @@ public class MarriageController {
         return true;
     }
 
-    public static boolean divorcePlayers(Player player1, Player player2) {
+    public static boolean divorcePlayers(OfflinePlayer player1, OfflinePlayer player2) {
         PlayerStorage player1Storage = Marriage.getPlayerStorageController().getPlayerStorage(player1);
         PlayerStorage player2Storage = Marriage.getPlayerStorageController().getPlayerStorage(player2);
         if (!(player1Storage.isEngaged(player2) || player2Storage.isEngaged(player1)
@@ -66,7 +67,7 @@ public class MarriageController {
         return true;
     }
 
-    public static boolean forceDivorcePlayers(String player1, String player2) {
+    public static boolean forceDivorcePlayers(OfflinePlayer player1, OfflinePlayer player2) {
         PlayerStorage player1Storage = Marriage.getPlayerStorageController().getPlayerStorage(player1);
         PlayerStorage player2Storage = Marriage.getPlayerStorageController().getPlayerStorage(player2);
         player1Storage.removeEngagement(player2);

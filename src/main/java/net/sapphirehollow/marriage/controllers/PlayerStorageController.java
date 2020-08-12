@@ -2,7 +2,7 @@ package net.sapphirehollow.marriage.controllers;
 
 import net.sapphirehollow.marriage.Marriage;
 import net.sapphirehollow.marriage.storage.PlayerStorage;
-import org.bukkit.entity.Player;
+import org.bukkit.OfflinePlayer;
 import xyz.fluxinc.fluxcore.configuration.ConfigurationManager;
 
 public class PlayerStorageController extends ConfigurationManager<Marriage> {
@@ -19,11 +19,11 @@ public class PlayerStorageController extends ConfigurationManager<Marriage> {
     public PlayerStorage getPlayerStorage(String uuid) {
         return this.getGeneric(uuid);
     }
-    public PlayerStorage getPlayerStorage(Player player) {
+    public PlayerStorage getPlayerStorage(OfflinePlayer player) {
         return this.getGeneric(player.getUniqueId().toString());
     }
 
-    public void setPlayerStorage(Player player, PlayerStorage storage) {
+    public void setPlayerStorage(OfflinePlayer player, PlayerStorage storage) {
         this.getConfiguration().set(player.getUniqueId().toString(), storage);
     }
 
