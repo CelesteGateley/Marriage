@@ -1,5 +1,8 @@
 package net.sapphirehollow.marriage;
 
+import net.sapphirehollow.marriage.commands.DivorceCommand;
+import net.sapphirehollow.marriage.commands.MarriageCommand;
+import net.sapphirehollow.marriage.commands.MarriedCommand;
 import net.sapphirehollow.marriage.commands.MarryCommand;
 import net.sapphirehollow.marriage.controllers.StorageController;
 import org.bukkit.entity.Player;
@@ -21,6 +24,9 @@ public final class Marriage extends JavaPlugin implements Listener {
         storageController = new StorageController(this, "storage.yml");
         getServer().getPluginManager().registerEvents(this, this);
         MarryCommand.registerCommands();
+        MarriageCommand.registerCommands();
+        MarriedCommand.registerCommands();
+        DivorceCommand.registerCommands();
     }
 
     public static StorageController getStorageController() { return storageController; }

@@ -1,6 +1,7 @@
 package net.sapphirehollow.marriage.commands;
 
 import dev.jorel.commandapi.CommandAPI;
+import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.arguments.Argument;
 import dev.jorel.commandapi.arguments.LiteralArgument;
 import dev.jorel.commandapi.arguments.PlayerArgument;
@@ -61,5 +62,16 @@ public class MarriedCommand {
         }, arguments));
 
         return returnVal;
+    }
+
+    public static void registerCommands() {
+        Map<String, ExecutorStorage> commands = getCommands();
+        for (String key : commands.keySet()) {
+            new CommandAPICommand("married")
+                    .withAliases("m")
+                    .withArguments(commands.get(key).getArguments())
+                    .executes(commands.get(key).getExecutor())
+                    .register();
+        }
     }
 }
