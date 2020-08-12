@@ -5,6 +5,8 @@ import net.sapphirehollow.marriage.commands.MarriageCommand;
 import net.sapphirehollow.marriage.commands.MarriedCommand;
 import net.sapphirehollow.marriage.commands.MarryCommand;
 import net.sapphirehollow.marriage.controllers.StorageController;
+import net.sapphirehollow.marriage.storage.PlayerStorage;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -34,6 +36,12 @@ public final class Marriage extends JavaPlugin implements Listener {
     @EventHandler( priority = EventPriority.MONITOR)
     public void cachePlayerName(PlayerJoinEvent event) {
         storageController.storeUniqueId(event.getPlayer().getName(), event.getPlayer().getUniqueId().toString());
+        PlayerStorage storage = storageController.getPlayerStorage(event.getPlayer());
+        for (OfflinePlayer player : storage.getAllPartners()) {
+            if (player.isOnline()) {
+                player.getPlayer().sendMessage("Your partner has joined the server!");
+            }
+        }
     }
 
     public static boolean isVanished(Player player) {
