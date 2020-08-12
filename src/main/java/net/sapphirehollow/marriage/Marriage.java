@@ -1,5 +1,6 @@
 package net.sapphirehollow.marriage;
 
+import net.sapphirehollow.marriage.commands.MarryCommand;
 import net.sapphirehollow.marriage.controllers.StorageController;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -17,6 +18,7 @@ public final class Marriage extends JavaPlugin implements Listener {
         instance = this;
         storageController = new StorageController(this, "storage.yml");
         getServer().getPluginManager().registerEvents(this, this);
+        MarryCommand.registerCommands();
     }
 
     public static StorageController getStorageController() { return storageController; }

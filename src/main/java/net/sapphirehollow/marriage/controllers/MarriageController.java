@@ -3,9 +3,16 @@ package net.sapphirehollow.marriage.controllers;
 import net.sapphirehollow.marriage.Marriage;
 import net.sapphirehollow.marriage.storage.PlayerStorage;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MarriageController {
 
+    public static final Map<OfflinePlayer, List<OfflinePlayer>> marriageRequests = new HashMap<>();
 
     public static boolean isMarriedTo(OfflinePlayer player1, OfflinePlayer player2) {
         return Marriage.getStorageController().getPlayerStorage(player1).isMarried(player2);
@@ -76,6 +83,27 @@ public class MarriageController {
         player2Storage.removeMarriage(player1);
         Marriage.getStorageController().setPlayerStorage(player1, player1Storage);
         Marriage.getStorageController().setPlayerStorage(player2, player2Storage);
+        return true;
+    }
+
+    public static void addEngageRequest(OfflinePlayer sender, OfflinePlayer recipient) {
+        List<OfflinePlayer> arr = marriageRequests.getOrDefault(sender, new ArrayList<>());
+        arr.add(recipient);
+        marriageRequests.put(sender, arr);
+    }
+
+    public static boolean confirmEngageRequest(OfflinePlayer sender, OfflinePlayer recipient) {
+        List<OfflinePlayer> arr = marriageRequests.getOrDefault(recipient, new ArrayList<>());
+        if (!arr.contains(sender)) return false;
+        arr.remove(sender);
+        marriageRequests.put(sender, arr);
+        return engagePlayers(sender, recipient);
+    }
+
+    public static boolean denyEngageRequest(OfflinePlayer sender, OfflinePlayer recipient) {
+        List<OfflinePlayer> arr = marriageRequests.getOrDefault(recipient, new ArrayList<>());
+        if (!arr.contains(sender)) return false;
+        arr.remove(sender);
         return true;
     }
 }
