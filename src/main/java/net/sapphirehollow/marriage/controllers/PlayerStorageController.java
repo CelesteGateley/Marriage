@@ -5,6 +5,9 @@ import net.sapphirehollow.marriage.storage.PlayerStorage;
 import org.bukkit.OfflinePlayer;
 import xyz.fluxinc.fluxcore.configuration.ConfigurationManager;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class PlayerStorageController extends ConfigurationManager<Marriage> {
     /**
      * A Class used for managing configuration files within a FluxCore plugin
@@ -14,6 +17,9 @@ public class PlayerStorageController extends ConfigurationManager<Marriage> {
      */
     public PlayerStorageController(Marriage instance, String configuration) {
         super(instance, configuration);
+        if (!this.getConfiguration().contains("id-map")) {
+            this.getConfiguration().set("id-map", new HashMap<String, String>());
+        }
     }
 
     public PlayerStorage getPlayerStorage(String uuid) {
@@ -29,5 +35,17 @@ public class PlayerStorageController extends ConfigurationManager<Marriage> {
 
     public void setPlayerStorage(String uuid, PlayerStorage storage) {
         this.getConfiguration().set(uuid, storage);
+    }
+
+    public void storeUniqueId(String name, String uuid) {
+        Map<String, String> names = this.getGeneric("id-map");
+        names.put(name, uuid);
+    }
+
+    public String getOfflinePlayer(String name) {
+        Map<String, String> names = this.getGeneric("id-map");
+        if (names.containsKey(name)) return names.get(name);
+        OfflinePlayer player = Marriage.instance.getServer().getOfflinePlayer(name);
+        return player.getUniqueId().toString();
     }
 }
