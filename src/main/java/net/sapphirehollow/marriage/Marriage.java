@@ -19,7 +19,7 @@ public final class Marriage extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(this, this);
     }
 
-    public static StorageController getPlayerStorageController() { return storageController; }
+    public static StorageController getStorageController() { return storageController; }
 
     @EventHandler( priority = EventPriority.MONITOR)
     public void cachePlayerName(PlayerJoinEvent event) {
