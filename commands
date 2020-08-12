@@ -1,0 +1,14 @@
+/marry (player)                         - Sends a marriage request to another player
+/divorce (player)                       - Divorce an online player
+/odivorce (player)                      - Divorce an offline player (maybe if i can get it working)
+
+/marriage confirm (player)              - Confirms a marriage request from the specified player
+/marriage priest (player) (player)      - Act as a priest and marry two players together (must be engaged)
+/marriage divorce (player) (player)     - Divorce two online players
+/marriage forcedivorce (uuid) (uuid)    - Force a divorce between two players using their unique id
+
+/married kiss                           - Kiss all online partners
+/married chat (message)                 - Send a message to all online partners
+/married tptoggle                       - Toggle ability for a partner to tp to you (Insurance)
+/married tp (player)                    - Tp to an online partner (Doesn't work if vanished/in spectator)
+/

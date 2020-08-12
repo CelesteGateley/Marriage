@@ -1,0 +1,4 @@
+name: Marriage
+version: ${project.version}
+main: net.sapphirehollow.marriage.Marriage
+api-version: 1.16
