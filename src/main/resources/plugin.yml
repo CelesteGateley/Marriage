@@ -1,4 +1,6 @@
 name: Marriage
 version: ${project.version}
 main: net.sapphirehollow.marriage.Marriage
+depends: [FluxCore, CommandAPI]
+soft-depends: [PlaceholderAPI]
 api-version: 1.16
