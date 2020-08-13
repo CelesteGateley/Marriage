@@ -5,12 +5,15 @@ import dev.jorel.commandapi.arguments.Argument;
 import dev.jorel.commandapi.arguments.PlayerArgument;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.sapphirehollow.marriage.Marriage;
 import net.sapphirehollow.marriage.controllers.MarriageController;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class DivorceCommand {
 
@@ -24,13 +27,18 @@ public class DivorceCommand {
                     if (sender instanceof OfflinePlayer) {
                         MarriageController.divorcePlayers((OfflinePlayer) sender, player);
                         if (player.isOnline()) {
-                            player.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                    "&7[&9SH Marriage&7]&b You are now divorced from " + sender.getName()));
+                            player.getPlayer().sendMessage(generateDivorceMessage(player));
                         }
 
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                "&7[&9SH Marriage&7]&b You are now divorced from " + player.getName()));
+                        sender.sendMessage(generateDivorceMessage((Player) sender));
                     }
                 });
+    }
+
+    private static String generateDivorceMessage(Player player) {
+        Map<String, String> args = new HashMap<>();
+        args.put("player",player.getName());
+        args.put("display",player.getDisplayName());
+        return Marriage.getLanguageController().generateMessage("divorce",args);
     }
 }

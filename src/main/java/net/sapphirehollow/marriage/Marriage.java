@@ -14,16 +14,19 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
+import xyz.fluxinc.fluxcore.configuration.LanguageManager;
 
 public final class Marriage extends JavaPlugin implements Listener {
 
     public static Marriage instance;
     private static StorageController storageController;
+    private static LanguageManager<Marriage>  languageController;
 
     @Override
     public void onEnable() {
         instance = this;
         storageController = new StorageController(this, "storage.yml");
+        languageController = new LanguageManager<>(this, "lang.yml");
         getServer().getPluginManager().registerEvents(this, this);
         MarryCommand.registerCommands();
         MarriageCommand.registerCommands();
@@ -33,13 +36,15 @@ public final class Marriage extends JavaPlugin implements Listener {
 
     public static StorageController getStorageController() { return storageController; }
 
+    public static LanguageManager<Marriage> getLanguageController() { return languageController; }
+
     @EventHandler( priority = EventPriority.MONITOR)
     public void cachePlayerName(PlayerJoinEvent event) {
         storageController.storeUniqueId(event.getPlayer().getName(), event.getPlayer().getUniqueId().toString());
         PlayerStorage storage = storageController.getPlayerStorage(event.getPlayer());
         for (OfflinePlayer player : storage.getAllPartners()) {
-            if (player.isOnline()) {
-                player.getPlayer().sendMessage("Your partner has joined the server!");
+            if (player.isOnline() && player.getPlayer() != null) {
+                player.getPlayer().sendMessage(languageController.generateMessage("joined"));
             }
         }
     }

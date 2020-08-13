@@ -27,8 +27,9 @@ public class MarriedCommand {
             if (sender instanceof Player) {
                 PlayerStorage storage = Marriage.getStorageController().getPlayerStorage((OfflinePlayer) sender);
                 for (OfflinePlayer oPlayer : storage.getAllPartners()) {
-                    if (oPlayer.isOnline()) {
+                    if (oPlayer.isOnline() && oPlayer.getPlayer() != null) {
                         oPlayer.getPlayer().getWorld().spawnParticle(Particle.HEART, oPlayer.getPlayer().getLocation(), 50, 0.5, 1, 0.5);
+                        oPlayer.getPlayer().sendMessage(generateKissMessage(oPlayer));
                     }
                 }
             }
@@ -40,12 +41,19 @@ public class MarriedCommand {
         returnVal.put("tp", new ExecutorStorage((sender, args) -> {
             if (sender instanceof Player) {
                 Player player = (Player) args[0];
-                if (Marriage.isVanished(player)) CommandAPI.fail("Player not found");
-                if (player.getGameMode() == GameMode.SPECTATOR) CommandAPI.fail("Teleport is disabled");
-                if (Marriage.getStorageController().getPlayerStorage(player).allowTeleport() && Marriage.getStorageController().getPlayerStorage((OfflinePlayer) sender).allowTeleport()) {
+                if (Marriage.isVanished(player)) {
+                    sender.sendMessage(Marriage.getLanguageController().generateMessage("playerNotFound"));
+                    return;
+                }
+                if (player.getGameMode() == GameMode.SPECTATOR) {
+                    sender.sendMessage(Marriage.getLanguageController().generateMessage("teleportDisabled"));
+                    return;
+                }
+                if (Marriage.getStorageController().getPlayerStorage(player).allowTeleport()
+                        && Marriage.getStorageController().getPlayerStorage((OfflinePlayer) sender).allowTeleport()) {
                     ((Player) sender).teleport(player);
                 } else {
-                    CommandAPI.fail("Teleport is disabled");
+                    sender.sendMessage(Marriage.getLanguageController().generateMessage("teleportDisabled"));
                 }
             }
         }, arguments));
@@ -57,7 +65,7 @@ public class MarriedCommand {
                 PlayerStorage storage = Marriage.getStorageController().getPlayerStorage((OfflinePlayer) sender);
                 boolean toggleVal = storage.toggleTeleport();
                 Marriage.getStorageController().setPlayerStorage((OfflinePlayer) sender, storage);
-                sender.sendMessage("&7[&9SH Marriage&7] You have toggled your teleport to " + (toggleVal ? "on" : "off"));
+                sender.sendMessage(generateToggleMessage(toggleVal ? "on" : "off"));
             }
         }, arguments));
 
@@ -73,5 +81,19 @@ public class MarriedCommand {
                     .executes(commands.get(key).getExecutor())
                     .register();
         }
+    }
+
+    public static String generateToggleMessage(String status) {
+        Map<String, String> args = new HashMap<>();
+        args.put("status",status);
+        return Marriage.getLanguageController().generateMessage("tpToggle",args);
+    }
+
+    private static String generateKissMessage(OfflinePlayer player) {
+        Map<String, String> args = new HashMap<>();
+        args.put("player",player.getName());
+        if (player.getPlayer() != null) { args.put("display",player.getPlayer().getDisplayName()); }
+        else { args.put("display", player.getName()); }
+        return Marriage.getLanguageController().generateMessage("kiss",args);
     }
 }
