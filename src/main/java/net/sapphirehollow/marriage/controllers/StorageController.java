@@ -40,14 +40,13 @@ public class StorageController extends ConfigurationManager<Marriage> {
     }
 
     public void storeUniqueId(String name, String uuid) {
-        Map<String, String> names = this.getGeneric("id-map");
-        names.put(name, uuid);
+        this.getConfiguration().set("id-map." + name, uuid);
         saveConfiguration();
     }
 
     public OfflinePlayer getOfflinePlayer(String name) {
-        Map<String, String> names = this.getGeneric("id-map");
-        if (names.containsKey(name)) return Marriage.instance.getServer().getOfflinePlayer(UUID.fromString(names.get(name)));
+        String id = this.getString("id-map." + name);
+        if (id != null && !id.equals("")) return Marriage.instance.getServer().getOfflinePlayer(UUID.fromString(id));
         return Marriage.instance.getServer().getOfflinePlayer(name);
     }
 }
