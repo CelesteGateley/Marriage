@@ -29,7 +29,7 @@ public class MarriedCommand {
                 for (OfflinePlayer oPlayer : storage.getAllPartners()) {
                     if (oPlayer.isOnline() && oPlayer.getPlayer() != null) {
                         oPlayer.getPlayer().getWorld().spawnParticle(Particle.HEART, oPlayer.getPlayer().getLocation(), 50, 0.5, 1, 0.5);
-                        oPlayer.getPlayer().sendMessage(generateKissMessage(oPlayer));
+                        oPlayer.getPlayer().sendMessage(generateKissMessage((OfflinePlayer) sender));
                     }
                 }
             }
