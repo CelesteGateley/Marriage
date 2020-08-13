@@ -1,6 +1,6 @@
 ## Lang.yml
 
-prefix: "&7[&SH Marriage&7]&b "
+prefix: "&7[&9SH Marriage&7]&b"
 mustBePlayer: "&cYou must be a player to run this command"
 noPermisson: "&cYou do not have permission to run this command"
 teleportDisabled: "&cThe target has teleport disabled"
