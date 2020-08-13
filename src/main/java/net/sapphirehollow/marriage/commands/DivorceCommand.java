@@ -32,7 +32,7 @@ public class DivorceCommand {
 
                         sender.sendMessage(generateDivorceMessage((Player) sender));
                     }
-                });
+                }).register();
     }
 
     private static String generateDivorceMessage(Player player) {
