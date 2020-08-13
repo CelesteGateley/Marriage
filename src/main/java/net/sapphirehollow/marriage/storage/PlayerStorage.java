@@ -47,7 +47,7 @@ public class PlayerStorage implements ConfigurationSerializable {
     }
 
     public boolean isEngaged(OfflinePlayer player) {
-        return marriages.contains(player.getUniqueId().toString());
+        return engagements.contains(player.getUniqueId().toString());
     }
 
     public boolean isMarried(String uuid) {
