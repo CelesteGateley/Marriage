@@ -32,6 +32,7 @@ public class StorageController extends ConfigurationManager<Marriage> {
 
     public void setPlayerStorage(OfflinePlayer player, PlayerStorage storage) {
         this.getConfiguration().set(player.getUniqueId().toString(), storage);
+        saveConfiguration();
     }
 
     public void setPlayerStorage(String uuid, PlayerStorage storage) {
@@ -41,6 +42,7 @@ public class StorageController extends ConfigurationManager<Marriage> {
     public void storeUniqueId(String name, String uuid) {
         Map<String, String> names = this.getGeneric("id-map");
         names.put(name, uuid);
+        saveConfiguration();
     }
 
     public OfflinePlayer getOfflinePlayer(String name) {
