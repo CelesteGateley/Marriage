@@ -25,7 +25,8 @@ public class MarryCommand {
                         MarriageController.addEngageRequest((OfflinePlayer) sender, player);
                         player.spigot().sendMessage(getMarryComponent((Player) sender));
                     }
-                });
+                })
+        .register();
     }
 
     private static TextComponent getMarryComponent(Player player) {
