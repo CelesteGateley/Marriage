@@ -27,6 +27,8 @@ public final class Marriage extends JavaPlugin implements Listener {
         instance = this;
         storageController = new StorageController(this, "storage.yml");
         languageController = new LanguageManager<>(this, "lang.yml");
+        if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null)
+            new PlaceholderAPIHook().register();
         getServer().getPluginManager().registerEvents(this, this);
         MarryCommand.registerCommands();
         MarriageCommand.registerCommands();
