@@ -7,6 +7,7 @@ import net.sapphirehollow.marriage.commands.MarryCommand;
 import net.sapphirehollow.marriage.controllers.StorageController;
 import net.sapphirehollow.marriage.storage.PlayerStorage;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -24,6 +25,7 @@ public final class Marriage extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+        ConfigurationSerialization.registerClass(PlayerStorage.class);
         instance = this;
         storageController = new StorageController(this, "storage.yml");
         languageController = new LanguageManager<>(this, "lang.yml");
