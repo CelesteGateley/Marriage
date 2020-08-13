@@ -44,6 +44,7 @@ public final class Marriage extends JavaPlugin implements Listener {
     public void cachePlayerName(PlayerJoinEvent event) {
         storageController.storeUniqueId(event.getPlayer().getName(), event.getPlayer().getUniqueId().toString());
         PlayerStorage storage = storageController.getPlayerStorage(event.getPlayer());
+        if (storage == null) { storage = new PlayerStorage(); storageController.setPlayerStorage(event.getPlayer(), storage); }
         for (OfflinePlayer player : storage.getAllPartners()) {
             if (player.isOnline() && player.getPlayer() != null) {
                 player.getPlayer().sendMessage(languageController.generateMessage("joined"));
