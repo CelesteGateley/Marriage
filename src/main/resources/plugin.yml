@@ -4,3 +4,10 @@ main: net.sapphirehollow.marriage.Marriage
 depend: [FluxCore, CommandAPI]
 soft-depend: [PlaceholderAPI]
 api-version: 1.16
+permissions:
+  marriage.divorce:
+    default: op
+  marriage.priest:
+    default: op
+  marriage.spy:
+    default: op
