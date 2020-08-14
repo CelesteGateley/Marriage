@@ -39,6 +39,11 @@ public class MarriedCommand {
         returnVal.put("tp", new ExecutorStorage((sender, args) -> {
             if (sender instanceof Player) {
                 Player player = (Player) args[0];
+                PlayerStorage storage = Marriage.getStorageController().getPlayerStorage((OfflinePlayer) sender);
+                if (!(storage.isMarried(player) || storage.isEngaged(player)))  {
+                    sender.sendMessage(Marriage.getLanguageController().generateMessage("tpFail"));
+                    return;
+                }
                 if (Marriage.isVanished(player)) {
                     sender.sendMessage(Marriage.getLanguageController().generateMessage("playerNotFound"));
                     return;
