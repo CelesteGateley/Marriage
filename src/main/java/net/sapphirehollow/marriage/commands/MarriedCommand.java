@@ -2,10 +2,7 @@ package net.sapphirehollow.marriage.commands;
 
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPICommand;
-import dev.jorel.commandapi.arguments.Argument;
-import dev.jorel.commandapi.arguments.ChatColorArgument;
-import dev.jorel.commandapi.arguments.LiteralArgument;
-import dev.jorel.commandapi.arguments.PlayerArgument;
+import dev.jorel.commandapi.arguments.*;
 import net.sapphirehollow.marriage.Marriage;
 import net.sapphirehollow.marriage.storage.ExecutorStorage;
 import net.sapphirehollow.marriage.storage.PlayerStorage;
@@ -73,14 +70,34 @@ public class MarriedCommand {
         }, arguments));
 
         arguments = new LinkedHashMap<>();
-        arguments.put("heart", new LiteralArgument("heart"));
-        arguments.put("color", new ChatColorArgument());
-        returnVal.put("heart", new ExecutorStorage((sender, args) -> {
+        arguments.put("color", new LiteralArgument("color"));
+        arguments.put("new_color", new ChatColorArgument());
+        returnVal.put("color", new ExecutorStorage((sender, args) -> {
             if (sender instanceof Player) {
                 PlayerStorage storage = Marriage.getStorageController().getPlayerStorage((OfflinePlayer) sender);
                 ChatColor color = (ChatColor) args[0];
                 storage.setPreferredColor("" + color);
                 Marriage.getStorageController().setPlayerStorage((OfflinePlayer) sender, storage);
+            }
+        }, arguments));
+
+        arguments = new LinkedHashMap<>();
+        arguments.put("chat", new LiteralArgument("chat"));
+        arguments.put("message", new GreedyStringArgument());
+        returnVal.put("chat", new ExecutorStorage((sender, args) -> {
+            if (sender instanceof Player) {
+                PlayerStorage storage = Marriage.getStorageController().getPlayerStorage((OfflinePlayer) sender);
+                for (Player player : Marriage.instance.getServer().getOnlinePlayers()) {
+                    if (storage.isEngaged(player) || storage.isMarried(player)) {
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c[&f" + ((Player) sender).getDisplayName()
+                         + "&c] " + args[0]));
+                        continue;
+                    }
+                    if (player.hasPermission("marriage.spy")) {
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&6MS&7]&c[&f" + ((Player) sender).getDisplayName()
+                                + "&c] " + args[0]));
+                    }
+                }
             }
         }, arguments));
 
