@@ -32,6 +32,6 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
     @Override
     public String onPlaceholderRequest(Player player, String identifier) {
         if (player == null) return "";
-        return Marriage.getStorageController().getPlayerStorage(player).getChatPrefix();
+        return Marriage.getStorageController().getPlayerStorage(player).getChatPrefix() + " ";
     }
 }
