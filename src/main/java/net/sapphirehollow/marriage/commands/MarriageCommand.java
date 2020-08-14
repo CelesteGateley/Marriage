@@ -92,16 +92,20 @@ public class MarriageCommand {
         arguments.put("player1", new StringArgument());
         arguments.put("player2", new StringArgument());
         returnVal.put("divorce", new ExecutorStorage((sender, args) -> {
+            if (sender.hasPermission("marriage.divorce")) {
+                sender.sendMessage(Marriage.getLanguageController().generateMessage("noPermission"));
+                return;
+            }
             OfflinePlayer player1 = Marriage.getStorageController().getOfflinePlayer((String) args[0]);
             OfflinePlayer player2 = Marriage.getStorageController().getOfflinePlayer((String) args[1]);
-            boolean status = MarriageController.marryPlayers(player1, player2);
+            boolean status = MarriageController.divorcePlayers(player1, player2);
             if (status) {
                 if (player1.isOnline() && player1.getPlayer() != null) {
-                    player1.getPlayer().sendMessage(generateDivorceMessage(player1.getPlayer()));
+                    player1.getPlayer().sendMessage(generateDivorceMessage(player2));
                 }
 
                 if (player2.isOnline() && player2.getPlayer() != null) {
-                    player2.getPlayer().sendMessage(generateDivorceMessage(player2.getPlayer()));
+                    player2.getPlayer().sendMessage(generateDivorceMessage(player1));
                 }
                 sender.sendMessage(generateExtDivorceMessage(player1, player2));
             } else {
@@ -122,10 +126,11 @@ public class MarriageCommand {
         }
     }
 
-    private static String generateDivorceMessage(Player player) {
+    private static String generateDivorceMessage(OfflinePlayer player) {
         Map<String, String> args = new HashMap<>();
         args.put("player",player.getName());
-        args.put("display",player.getDisplayName());
+        if (player.getPlayer() != null) args.put("display",player.getPlayer().getDisplayName());
+        else args.put("display",player.getName());
         return Marriage.getLanguageController().generateMessage("divorce",args);
     }
 

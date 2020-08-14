@@ -24,6 +24,10 @@ public class MarryCommand {
                 .executes((sender, args) -> {
                     Player player = (Player) args[0];
                     if (sender instanceof OfflinePlayer) {
+                        if (((OfflinePlayer) sender).getUniqueId() == player.getUniqueId()) {
+                            sender.sendMessage(Marriage.getLanguageController().generateMessage("marryFail"));
+                            return;
+                        }
                         PlayerStorage playerStorage = Marriage.getStorageController().getPlayerStorage(player);
                         if (playerStorage.isEngaged((OfflinePlayer) sender) || playerStorage.isMarried((OfflinePlayer) sender)) {
                             sender.sendMessage(Marriage.getLanguageController().generateMessage("alreadyEngMar"));

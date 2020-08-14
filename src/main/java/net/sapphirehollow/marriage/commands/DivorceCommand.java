@@ -25,12 +25,16 @@ public class DivorceCommand {
                 .executes((sender, args) -> {
                     Player player = (Player) args[0];
                     if (sender instanceof OfflinePlayer) {
-                        MarriageController.divorcePlayers((OfflinePlayer) sender, player);
-                        if (player.isOnline()) {
-                            player.getPlayer().sendMessage(generateDivorceMessage(player));
-                        }
+                        boolean status = MarriageController.divorcePlayers((OfflinePlayer) sender, player);
+                        if (status) {
+                            if (player.isOnline()) {
+                                player.getPlayer().sendMessage(generateDivorceMessage((Player) sender));
+                            }
 
-                        sender.sendMessage(generateDivorceMessage((Player) sender));
+                            sender.sendMessage(generateDivorceMessage(player));
+                        } else {
+                            sender.sendMessage(Marriage.getLanguageController().generateMessage("noDivorce"));
+                        }
                     }
                 }).register();
     }

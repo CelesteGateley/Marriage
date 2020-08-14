@@ -23,6 +23,7 @@ public class MarriageController {
     }
 
     public static boolean marryPlayers(OfflinePlayer player1, OfflinePlayer player2) {
+        if (player1.getUniqueId() == player2.getUniqueId()) return false;
         PlayerStorage player1Storage = Marriage.getStorageController().getPlayerStorage(player1);
         PlayerStorage player2Storage = Marriage.getStorageController().getPlayerStorage(player2);
         if (!player1Storage.isEngaged(player2)) return false;
@@ -37,6 +38,7 @@ public class MarriageController {
     }
 
     public static boolean forceMarryPlayers(OfflinePlayer player1, OfflinePlayer player2) {
+        if (player1.getUniqueId() == player2.getUniqueId()) return false;
         PlayerStorage player1Storage = Marriage.getStorageController().getPlayerStorage(player1);
         PlayerStorage player2Storage = Marriage.getStorageController().getPlayerStorage(player2);
         player1Storage.removeEngagement(player2);
@@ -49,6 +51,7 @@ public class MarriageController {
     }
 
     public static boolean engagePlayers(OfflinePlayer player1, OfflinePlayer player2) {
+        if (player1.getUniqueId() == player2.getUniqueId()) return false;
         PlayerStorage player1Storage = Marriage.getStorageController().getPlayerStorage(player1);
         PlayerStorage player2Storage = Marriage.getStorageController().getPlayerStorage(player2);
         if (player1Storage.isMarried(player2)) return false;
