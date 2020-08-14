@@ -3,15 +3,13 @@ package net.sapphirehollow.marriage.commands;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.arguments.Argument;
+import dev.jorel.commandapi.arguments.ChatColorArgument;
 import dev.jorel.commandapi.arguments.LiteralArgument;
 import dev.jorel.commandapi.arguments.PlayerArgument;
 import net.sapphirehollow.marriage.Marriage;
 import net.sapphirehollow.marriage.storage.ExecutorStorage;
 import net.sapphirehollow.marriage.storage.PlayerStorage;
-import org.bukkit.Effect;
-import org.bukkit.GameMode;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -66,6 +64,18 @@ public class MarriedCommand {
                 boolean toggleVal = storage.toggleTeleport();
                 Marriage.getStorageController().setPlayerStorage((OfflinePlayer) sender, storage);
                 sender.sendMessage(generateToggleMessage(toggleVal ? "on" : "off"));
+            }
+        }, arguments));
+
+        arguments = new LinkedHashMap<>();
+        arguments.put("heart", new LiteralArgument("heart"));
+        arguments.put("color", new ChatColorArgument());
+        returnVal.put("heart", new ExecutorStorage((sender, args) -> {
+            if (sender instanceof Player) {
+                PlayerStorage storage = Marriage.getStorageController().getPlayerStorage((OfflinePlayer) sender);
+                ChatColor color = (ChatColor) args[0];
+                storage.setPreferredColor("" + color);
+                Marriage.getStorageController().setPlayerStorage((OfflinePlayer) sender, storage);
             }
         }, arguments));
 
