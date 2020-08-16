@@ -87,10 +87,13 @@ public class MarriedCommand {
         returnVal.put("chat", new ExecutorStorage((sender, args) -> {
             if (sender instanceof Player) {
                 PlayerStorage storage = Marriage.getStorageController().getPlayerStorage((OfflinePlayer) sender);
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c[&f" + ((Player) sender).getDisplayName()
+                        + "&c] " + args[0]));
                 for (Player player : Marriage.instance.getServer().getOnlinePlayers()) {
+                    if (sender == player) continue;
                     if (storage.isEngaged(player) || storage.isMarried(player)) {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c[&f" + ((Player) sender).getDisplayName()
-                         + "&c] " + args[0]));
+                                + "&c] " + args[0]));
                         continue;
                     }
                     if (player.hasPermission("marriage.spy")) {
