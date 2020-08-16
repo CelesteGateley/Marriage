@@ -113,7 +113,7 @@ public class PlayerStorage implements ConfigurationSerializable {
 
     public String getChatPrefix() {
         if (engagements.size() != 0 || marriages.size() != 0) {
-            return this.preferredColor + "\u2665";
+            return this.preferredColor + "\u2665 ";
         }
         return "";
     }
