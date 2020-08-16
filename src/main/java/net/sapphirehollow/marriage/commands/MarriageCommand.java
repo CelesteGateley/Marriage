@@ -7,6 +7,7 @@ import dev.jorel.commandapi.arguments.StringArgument;
 import net.sapphirehollow.marriage.Marriage;
 import net.sapphirehollow.marriage.controllers.MarriageController;
 import net.sapphirehollow.marriage.storage.ExecutorStorage;
+import net.sapphirehollow.marriage.storage.PlayerStorage;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -113,6 +114,20 @@ public class MarriageCommand {
             }
         }, arguments));
 
+        // Divorce
+        arguments = new LinkedHashMap<>();
+        arguments.put("divorce", new LiteralArgument("divorce"));
+        arguments.put("player1", new StringArgument());
+        arguments.put("player2", new StringArgument());
+        returnVal.put("divorce", new ExecutorStorage((sender, args) -> {
+            if (sender instanceof Player) {
+                PlayerStorage storage = Marriage.getStorageController().getPlayerStorage((OfflinePlayer) sender);
+                boolean spy = storage.toggleMarriageSpy();
+                Marriage.getStorageController().setPlayerStorage((OfflinePlayer) sender, storage);
+                sender.sendMessage(generateToggleMessage(spy ? "on" : "off"));
+            }
+        }, arguments));
+
         return returnVal;
     }
 
@@ -124,6 +139,12 @@ public class MarriageCommand {
                     .executes(commands.get(key).getExecutor())
                     .register();
         }
+    }
+
+    public static String generateToggleMessage(String status) {
+        Map<String, String> args = new HashMap<>();
+        args.put("status",status);
+        return Marriage.getLanguageController().generateMessage("spyToggle",args);
     }
 
     private static String generateDivorceMessage(OfflinePlayer player) {

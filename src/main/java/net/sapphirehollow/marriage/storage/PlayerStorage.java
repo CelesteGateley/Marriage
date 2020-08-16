@@ -15,12 +15,14 @@ public class PlayerStorage implements ConfigurationSerializable {
     private final List<String> marriages;
     private String preferredColor;
     private boolean teleportToggle;
+    private boolean marriageSpyToggle;
 
     public PlayerStorage() {
         engagements = new ArrayList<>();
         marriages = new ArrayList<>();
         preferredColor = DEFAULT_COLOR;
         teleportToggle = false;
+        marriageSpyToggle = true;
     }
 
     public PlayerStorage(Map<String, Object> data) {
@@ -28,6 +30,7 @@ public class PlayerStorage implements ConfigurationSerializable {
         marriages = (List<String>) data.getOrDefault("marriages", new ArrayList<>());
         preferredColor = "" + data.getOrDefault("preferredColor", DEFAULT_COLOR);
         teleportToggle = (boolean) data.getOrDefault("teleportToggle", false);
+        marriageSpyToggle = (boolean) data.getOrDefault("marriageSpyToggle", true);
     }
 
     public List<String> getEngagements() {
@@ -94,6 +97,10 @@ public class PlayerStorage implements ConfigurationSerializable {
         this.preferredColor = preferredColor;
     }
 
+    public boolean toggleMarriageSpy() { marriageSpyToggle = !marriageSpyToggle; return marriageSpyToggle; }
+
+    public boolean marriageSpy() { return marriageSpyToggle; }
+
     public List<String> getAllPartnerUuids() {
         List<String> uuids = new ArrayList<>(marriages);
         uuids.addAll(engagements);
@@ -141,6 +148,9 @@ public class PlayerStorage implements ConfigurationSerializable {
         }
         if (!preferredColor.equals(DEFAULT_COLOR)) {
             map.put("preferredColor", preferredColor);
+        }
+        if (!marriageSpyToggle) {
+            map.put("marriageSpyToggle", false);
         }
 
         return map;

@@ -97,8 +97,11 @@ public class MarriedCommand {
                         continue;
                     }
                     if (player.hasPermission("marriage.spy")) {
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&6MS&7]&c[&f" + ((Player) sender).getDisplayName()
-                                + "&c] " + args[0]));
+                        PlayerStorage pStore = Marriage.getStorageController().getPlayerStorage(player);
+                        if (pStore.marriageSpy()) {
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&6MS&7]&c[&f" + ((Player) sender).getDisplayName()
+                                    + "&c] " + args[0]));
+                        }
                     }
                 }
             }
