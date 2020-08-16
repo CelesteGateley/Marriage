@@ -130,8 +130,15 @@ public class PlayerStorage implements ConfigurationSerializable {
     @Override
     public Map<String, Object> serialize() {
         Map<String, Object> map = new HashMap<>();
-        map.put("engagements", engagements);
-        map.put("marriages", marriages);
+        if (engagements.size() > 0) {
+            map.put("engagements", engagements);
+        }
+        if (marriages.size() > 0) {
+            map.put("marriages", marriages);
+        }
+        if (teleportToggle) {
+            map.put("teleportToggle", true);
+        }
         if (!preferredColor.equals(DEFAULT_COLOR)) {
             map.put("preferredColor", preferredColor);
         }
