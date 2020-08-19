@@ -116,10 +116,8 @@ public class MarriageCommand {
 
         // Divorce
         arguments = new LinkedHashMap<>();
-        arguments.put("divorce", new LiteralArgument("divorce"));
-        arguments.put("player1", new StringArgument());
-        arguments.put("player2", new StringArgument());
-        returnVal.put("divorce", new ExecutorStorage((sender, args) -> {
+        arguments.put("spy", new LiteralArgument("spy"));
+        returnVal.put("spy", new ExecutorStorage((sender, args) -> {
             if (sender instanceof Player) {
                 PlayerStorage storage = Marriage.getStorageController().getPlayerStorage((OfflinePlayer) sender);
                 boolean spy = storage.toggleMarriageSpy();
