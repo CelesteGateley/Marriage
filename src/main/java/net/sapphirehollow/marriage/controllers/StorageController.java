@@ -24,15 +24,19 @@ public class StorageController extends ConfigurationManager<Marriage> {
     }
 
     public PlayerStorage getPlayerStorage(String uuid) {
-        return this.getGeneric(uuid);
+        PlayerStorage storage = this.getGeneric(uuid);
+        return storage != null ? storage : new PlayerStorage();
     }
     public PlayerStorage getPlayerStorage(OfflinePlayer player) {
-        return this.getGeneric(player.getUniqueId().toString());
+        PlayerStorage storage = this.getGeneric(player.getUniqueId().toString());
+        return storage != null ? storage : new PlayerStorage();
     }
 
     public void setPlayerStorage(OfflinePlayer player, PlayerStorage storage) {
-        this.getConfiguration().set(player.getUniqueId().toString(), storage);
-        saveConfiguration();
+        if (storage.serialize().size() > 0) {
+            this.getConfiguration().set(player.getUniqueId().toString(), storage);
+            saveConfiguration();
+        }
     }
 
     public void setPlayerStorage(String uuid, PlayerStorage storage) {
