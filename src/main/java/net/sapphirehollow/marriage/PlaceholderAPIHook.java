@@ -45,17 +45,17 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
             case "heart": return storage.getChatPrefix(false);
             case "married_list": return uuidListToNames(storage.getMarriages());
             case "married_list_full":
-                if (storage.getEngagements().size() == 0) return "";
-                return ChatColor.GOLD + "Engagements: " + ChatColor.YELLOW + uuidListToNames(storage.getMarriages());
+                if (storage.getMarriages().size() == 0) return "";
+                return ChatColor.GOLD + "Marriages: " + ChatColor.YELLOW + uuidListToNames(storage.getMarriages());
             case "married_list_full_new":
-                if (storage.getEngagements().size() == 0) return "";
-                return ChatColor.GOLD + "Engagements: " + ChatColor.YELLOW + uuidListToNames(storage.getMarriages()) + "\n";
+                if (storage.getMarriages().size() == 0) return "";
+                return ChatColor.GOLD + "Marriages: " + ChatColor.YELLOW + uuidListToNames(storage.getMarriages()) + "\n";
             case "new_married_list_full":
-                if (storage.getEngagements().size() == 0) return "";
-                return "\n" + ChatColor.GOLD + "Engagements: " + ChatColor.YELLOW + uuidListToNames(storage.getMarriages());
+                if (storage.getMarriages().size() == 0) return "";
+                return "\n" + ChatColor.GOLD + "Marriages: " + ChatColor.YELLOW + uuidListToNames(storage.getMarriages());
             case "new_married_list_full_new":
-                if (storage.getEngagements().size() == 0) return "";
-                return "\n" + ChatColor.GOLD + "Engagements: " + ChatColor.YELLOW + uuidListToNames(storage.getMarriages()) + "\n";
+                if (storage.getMarriages().size() == 0) return "";
+                return "\n" + ChatColor.GOLD + "Marriages: " + ChatColor.YELLOW + uuidListToNames(storage.getMarriages()) + "\n";
             case "engaged_list": return uuidListToNames(storage.getEngagements());
             case "engaged_list_full":
                 if (storage.getEngagements().size() == 0) return "";
