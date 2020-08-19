@@ -131,9 +131,9 @@ public class MarriedCommand {
 
     private static String generateKissMessage(OfflinePlayer player) {
         String message = Marriage.getLanguageController().getString("kiss");
-        message.replaceAll("%player%", player.getName());
-        if (player.getPlayer() != null) { message.replaceAll("%display%",player.getPlayer().getDisplayName()); }
-        else { message.replaceAll("%display%", player.getName()); }
+        message = message.replaceAll("%player%", player.getName());
+        if (player.getPlayer() != null) { message = message.replaceAll("%display%",player.getPlayer().getDisplayName()); }
+        else { message = message.replaceAll("%display%", player.getName()); }
         return message;
     }
 }
