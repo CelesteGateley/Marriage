@@ -39,7 +39,7 @@ public class MarriageCommand {
                 if (player2.isOnline() && player2.getPlayer() != null) {
                     player2.getPlayer().sendMessage(generateMarriageMessage(player1));
                 }
-                sender.sendMessage(generateExtMarriageMessage(player1, player2));
+                Marriage.instance.getServer().broadcastMessage(generateExtMarriageMessage(player1, player2));
             } else {
                 sender.sendMessage(Marriage.getLanguageController().generateMessage("marryFail"));
             }
