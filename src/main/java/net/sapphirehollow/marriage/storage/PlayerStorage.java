@@ -118,9 +118,9 @@ public class PlayerStorage implements ConfigurationSerializable {
         return partners;
     }
 
-    public String getChatPrefix() {
+    public String getChatPrefix(boolean addSpace) {
         if (engagements.size() != 0 || marriages.size() != 0) {
-            return this.preferredColor + "\u2665 ";
+            return this.preferredColor + "\u2665" + (addSpace ? " " : "");
         }
         return "";
     }
