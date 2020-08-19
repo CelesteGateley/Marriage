@@ -3,6 +3,8 @@ package net.sapphirehollow.marriage.commands;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.arguments.*;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.sapphirehollow.marriage.Marriage;
 import net.sapphirehollow.marriage.storage.ExecutorStorage;
 import net.sapphirehollow.marriage.storage.PlayerStorage;
@@ -24,7 +26,7 @@ public class MarriedCommand {
                 for (OfflinePlayer oPlayer : storage.getAllPartners()) {
                     if (oPlayer.isOnline() && oPlayer.getPlayer() != null) {
                         oPlayer.getPlayer().getWorld().spawnParticle(Particle.HEART, oPlayer.getPlayer().getLocation(), 50, 0.5, 1, 0.5);
-                        oPlayer.getPlayer().sendMessage(generateKissMessage((OfflinePlayer) sender));
+                        oPlayer.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(generateKissMessage((OfflinePlayer) sender)));
                     }
                 }
             }
@@ -128,10 +130,10 @@ public class MarriedCommand {
     }
 
     private static String generateKissMessage(OfflinePlayer player) {
-        Map<String, String> args = new HashMap<>();
-        args.put("player",player.getName());
-        if (player.getPlayer() != null) { args.put("display",player.getPlayer().getDisplayName()); }
-        else { args.put("display", player.getName()); }
-        return Marriage.getLanguageController().generateMessage("kiss",args);
+        String message = Marriage.getLanguageController().getString("kiss");
+        message.replaceAll("%player%", player.getName());
+        if (player.getPlayer() != null) { message.replaceAll("%display%",player.getPlayer().getDisplayName()); }
+        else { message.replaceAll("%display%", player.getName()); }
+        return message;
     }
 }
