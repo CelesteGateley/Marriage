@@ -2,7 +2,7 @@
 
 prefix: "&7[&9SH Marriage&7]&b"
 mustBePlayer: "&cYou must be a player to run this command"
-noPermisson: "&cYou do not have permission to run this command"
+noPermission: "&cYou do not have permission to run this command"
 teleportDisabled: "&cThe target has teleport disabled"
 playerNotFound: "&cThe specified player is not online"
 alreadyEngMar: "&cYou are already engaged/married to this person"
