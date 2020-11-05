@@ -93,7 +93,7 @@ public class MarriageCommand {
         arguments.put("player1", new StringArgument());
         arguments.put("player2", new StringArgument());
         returnVal.put("divorce", new ExecutorStorage((sender, args) -> {
-            if (sender.hasPermission("marriage.divorce")) {
+            if (!sender.hasPermission("marriage.divorce")) {
                 sender.sendMessage(Marriage.getLanguageController().generateMessage("noPermission"));
                 return;
             }
