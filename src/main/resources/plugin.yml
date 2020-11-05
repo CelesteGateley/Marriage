@@ -3,6 +3,7 @@ version: ${project.version}
 main: net.sapphirehollow.marriage.Marriage
 depend: [FluxCore, CommandAPI]
 soft-depend: [PlaceholderAPI]
+authors: [CelesteMagisteel]
 api-version: 1.16
 permissions:
   marriage.divorce:
