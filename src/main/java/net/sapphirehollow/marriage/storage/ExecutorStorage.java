@@ -9,7 +9,7 @@ import java.util.List;
 public class ExecutorStorage {
 
     private final CommandExecutor executor;
-    private final LinkedHashMap<String, Argument> arguments;
+    private final List<Argument> arguments;
 
     public ExecutorStorage(CommandExecutor executor, List<Argument> arguments) {
         this.executor = executor;
