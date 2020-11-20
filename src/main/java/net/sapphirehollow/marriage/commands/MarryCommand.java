@@ -12,13 +12,15 @@ import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 public class MarryCommand {
 
     public static void registerCommands() {
-        LinkedHashMap<String, Argument> arguments = new LinkedHashMap<>();
-        arguments.put("player", new PlayerArgument());
+        List<Argument> arguments = new ArrayList<>();
+        arguments.add(new PlayerArgument("player"));
         new CommandAPICommand("marry")
                 .withArguments(arguments)
                 .executes((sender, args) -> {

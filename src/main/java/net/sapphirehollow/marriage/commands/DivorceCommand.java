@@ -11,15 +11,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class DivorceCommand {
 
     public static void registerCommands() {
-        LinkedHashMap<String, Argument> arguments = new LinkedHashMap<>();
-        arguments.put("divorce", new PlayerArgument());
+        List<Argument> arguments = new ArrayList<>();
+        arguments.add(new PlayerArgument("target"));
         new CommandAPICommand("divorce")
                 .withArguments(arguments)
                 .executes((sender, args) -> {

@@ -11,18 +11,16 @@ import net.sapphirehollow.marriage.storage.PlayerStorage;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class MarriageCommand {
     private static Map<String, ExecutorStorage> getCommands() {
         Map<String, ExecutorStorage> returnVal = new HashMap<>();
         // Priest Command
-        LinkedHashMap<String, Argument> arguments = new LinkedHashMap<>();
-        arguments.put("priest", new LiteralArgument("priest"));
-        arguments.put("player1", new StringArgument());
-        arguments.put("player2", new StringArgument());
+        List<Argument> arguments = new ArrayList<>();
+        arguments.add(new LiteralArgument("priest"));
+        arguments.add(new StringArgument("player1"));
+        arguments.add(new StringArgument("player2"));
         returnVal.put("priest", new ExecutorStorage((sender, args) -> {
             if (!sender.hasPermission("marriage.priest")) {
                 sender.sendMessage(Marriage.getLanguageController().generateMessage("noPermission"));
@@ -46,9 +44,9 @@ public class MarriageCommand {
         }, arguments));
 
         // Confirm Command
-        arguments = new LinkedHashMap<>();
-        arguments.put("confirm", new LiteralArgument("confirm"));
-        arguments.put("player", new StringArgument());
+        arguments = new ArrayList<>();
+        arguments.add(new LiteralArgument("confirm"));
+        arguments.add(new StringArgument("player"));
         returnVal.put("confirm", new ExecutorStorage((sender, args) -> {
             OfflinePlayer player = Marriage.getStorageController().getOfflinePlayer((String) args[0]);
             if (!(sender instanceof OfflinePlayer)) {
@@ -67,9 +65,9 @@ public class MarriageCommand {
         }, arguments));
 
         // Deny Command
-        arguments = new LinkedHashMap<>();
-        arguments.put("deny", new LiteralArgument("deny"));
-        arguments.put("player", new StringArgument());
+        arguments = new ArrayList<>();
+        arguments.add(new LiteralArgument("deny"));
+        arguments.add(new StringArgument("player"));
         returnVal.put("deny", new ExecutorStorage((sender, args) -> {
             OfflinePlayer player = Marriage.getStorageController().getOfflinePlayer((String) args[0]);
             if (!(sender instanceof OfflinePlayer)) {
@@ -88,10 +86,10 @@ public class MarriageCommand {
         }, arguments));
 
         // Divorce
-        arguments = new LinkedHashMap<>();
-        arguments.put("divorce", new LiteralArgument("divorce"));
-        arguments.put("player1", new StringArgument());
-        arguments.put("player2", new StringArgument());
+        arguments = new ArrayList<>();
+        arguments.add(new LiteralArgument("divorce"));
+        arguments.add(new StringArgument("player1"));
+        arguments.add(new StringArgument("player2"));
         returnVal.put("divorce", new ExecutorStorage((sender, args) -> {
             if (!sender.hasPermission("marriage.divorce")) {
                 sender.sendMessage(Marriage.getLanguageController().generateMessage("noPermission"));
@@ -115,8 +113,8 @@ public class MarriageCommand {
         }, arguments));
 
         // Divorce
-        arguments = new LinkedHashMap<>();
-        arguments.put("spy", new LiteralArgument("spy"));
+        arguments = new ArrayList<>();
+        arguments.add(new LiteralArgument("spy"));
         returnVal.put("spy", new ExecutorStorage((sender, args) -> {
             if (sender instanceof Player) {
                 PlayerStorage storage = Marriage.getStorageController().getPlayerStorage((OfflinePlayer) sender);

@@ -1,6 +1,5 @@
 package net.sapphirehollow.marriage.commands;
 
-import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.arguments.*;
 import net.md_5.bungee.api.ChatMessageType;
@@ -8,7 +7,10 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.sapphirehollow.marriage.Marriage;
 import net.sapphirehollow.marriage.storage.ExecutorStorage;
 import net.sapphirehollow.marriage.storage.PlayerStorage;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -18,8 +20,8 @@ public class MarriedCommand {
     private static Map<String, ExecutorStorage> getCommands() {
         Map<String, ExecutorStorage> returnVal = new HashMap<>();
         // Priest Command
-        LinkedHashMap<String, Argument> arguments = new LinkedHashMap<>();
-        arguments.put("kiss", new LiteralArgument("kiss"));
+        List<Argument> arguments = new ArrayList<>();
+        arguments.add(new LiteralArgument("kiss"));
         returnVal.put("kiss", new ExecutorStorage((sender, args) -> {
             if (sender instanceof Player) {
                 PlayerStorage storage = Marriage.getStorageController().getPlayerStorage((OfflinePlayer) sender);
@@ -32,9 +34,9 @@ public class MarriedCommand {
             }
         }, arguments));
 
-        arguments = new LinkedHashMap<>();
-        arguments.put("tp", new LiteralArgument("tp"));
-        arguments.put("player", new PlayerArgument());
+        arguments = new ArrayList<>();
+        arguments.add(new LiteralArgument("tp"));
+        arguments.add(new PlayerArgument("player"));
         returnVal.put("tp", new ExecutorStorage((sender, args) -> {
             if (sender instanceof Player) {
                 Player player = (Player) args[0];
@@ -60,8 +62,8 @@ public class MarriedCommand {
             }
         }, arguments));
 
-        arguments = new LinkedHashMap<>();
-        arguments.put("tptoggle", new LiteralArgument("tptoggle"));
+        arguments = new ArrayList<>();
+        arguments.add(new LiteralArgument("tptoggle"));
         returnVal.put("tptoggle", new ExecutorStorage((sender, args) -> {
             if (sender instanceof Player) {
                 PlayerStorage storage = Marriage.getStorageController().getPlayerStorage((OfflinePlayer) sender);
@@ -71,9 +73,9 @@ public class MarriedCommand {
             }
         }, arguments));
 
-        arguments = new LinkedHashMap<>();
-        arguments.put("color", new LiteralArgument("color"));
-        arguments.put("new_color", new ChatColorArgument());
+        arguments = new ArrayList<>();
+        arguments.add(new LiteralArgument("color"));
+        arguments.add(new ChatColorArgument("color"));
         returnVal.put("color", new ExecutorStorage((sender, args) -> {
             if (sender instanceof Player) {
                 PlayerStorage storage = Marriage.getStorageController().getPlayerStorage((OfflinePlayer) sender);
@@ -83,9 +85,9 @@ public class MarriedCommand {
             }
         }, arguments));
 
-        arguments = new LinkedHashMap<>();
-        arguments.put("chat", new LiteralArgument("chat"));
-        arguments.put("message", new GreedyStringArgument());
+        arguments = new ArrayList<>();
+        arguments.add(new LiteralArgument("chat"));
+        arguments.add(new GreedyStringArgument("message"));
         returnVal.put("chat", new ExecutorStorage((sender, args) -> {
             if (sender instanceof Player) {
                 PlayerStorage storage = Marriage.getStorageController().getPlayerStorage((OfflinePlayer) sender);
