@@ -117,11 +117,12 @@ public class MarriedCommand {
     public static void registerCommands() {
         Map<String, ExecutorStorage> commands = getCommands();
         for (String key : commands.keySet()) {
-            new CommandAPICommand("married")
-                    .withAliases("m")
-                    .withArguments(commands.get(key).getArguments())
-                    .executes(commands.get(key).getExecutor())
-                    .register();
+            CommandAPICommand command = new CommandAPICommand("married").withAliases("m");
+            for (Argument argument : commands.get(key).getArguments()) {
+                command.withArguments(argument);
+            }
+            command.executes(commands.get(key).getExecutor());
+            command.register();
         }
     }
 

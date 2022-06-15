@@ -19,10 +19,8 @@ import java.util.List;
 public class MarryCommand {
 
     public static void registerCommands() {
-        List<Argument> arguments = new ArrayList<>();
-        arguments.add(new PlayerArgument("player"));
         new CommandAPICommand("marry")
-                .withArguments(arguments)
+                .withArguments(new PlayerArgument("player"))
                 .executes((sender, args) -> {
                     Player player = (Player) args[0];
                     if (sender instanceof OfflinePlayer) {

@@ -16,10 +16,8 @@ import java.util.*;
 public class DivorceCommand {
 
     public static void registerCommands() {
-        List<Argument> arguments = new ArrayList<>();
-        arguments.add(new PlayerArgument("target"));
         new CommandAPICommand("divorce")
-                .withArguments(arguments)
+                .withArguments(new PlayerArgument("target"))
                 .executes((sender, args) -> {
                     Player player = (Player) args[0];
                     if (sender instanceof OfflinePlayer) {
