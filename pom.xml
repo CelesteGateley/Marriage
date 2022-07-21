@@ -70,7 +70,7 @@
         <dependency>
             <groupId>com.github.CelesteGateley</groupId>
             <artifactId>FluxCore</artifactId>
-            <version>f4cfdc95</version>
+            <version>5bbf181a</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
