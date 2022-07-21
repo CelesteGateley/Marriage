@@ -3,7 +3,6 @@ package net.sapphirehollow.marriage.controllers;
 import net.sapphirehollow.marriage.Marriage;
 import net.sapphirehollow.marriage.storage.PlayerStorage;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;

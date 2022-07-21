@@ -1,8 +1,5 @@
 package net.sapphirehollow.marriage.commands;
 
-import dev.jorel.commandapi.CommandAPICommand;
-import dev.jorel.commandapi.arguments.Argument;
-import dev.jorel.commandapi.arguments.PlayerArgument;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.sapphirehollow.marriage.Marriage;
@@ -11,33 +8,29 @@ import net.sapphirehollow.marriage.storage.PlayerStorage;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
+import xyz.fluxinc.fluxcore.command.Command;
 
 public class MarryCommand {
 
-    public static void registerCommands() {
-        new CommandAPICommand("marry")
-                .withArguments(new PlayerArgument("player"))
-                .executes((sender, args) -> {
-                    Player player = (Player) args[0];
-                    if (sender instanceof OfflinePlayer) {
-                        if (((OfflinePlayer) sender).getUniqueId() == player.getUniqueId()) {
-                            sender.sendMessage(Marriage.getLanguageController().generateMessage("marryFail"));
-                            return;
-                        }
-                        PlayerStorage playerStorage = Marriage.getStorageController().getPlayerStorage(player);
-                        if (playerStorage.isEngaged((OfflinePlayer) sender) || playerStorage.isMarried((OfflinePlayer) sender)) {
-                            sender.sendMessage(Marriage.getLanguageController().generateMessage("alreadyEngMar"));
-                            return;
-                        }
-                        MarriageController.addEngageRequest((OfflinePlayer) sender, player);
-                        player.spigot().sendMessage(getMarryComponent((Player) sender));
-                    }
-                })
-        .register();
+    public static void register() {
+        Command command = new Command("marry").player("player");;
+        command.executor((sender, args) -> {
+            Player player = (Player) args[0];
+            if (sender instanceof OfflinePlayer) {
+                if (((OfflinePlayer) sender).getUniqueId() == player.getUniqueId()) {
+                    sender.sendMessage(Marriage.getLanguageController().generateMessage("marryFail"));
+                    return;
+                }
+                PlayerStorage playerStorage = Marriage.getStorageController().getPlayerStorage(player);
+                if (playerStorage.isEngaged((OfflinePlayer) sender) || playerStorage.isMarried((OfflinePlayer) sender)) {
+                    sender.sendMessage(Marriage.getLanguageController().generateMessage("alreadyEngMar"));
+                    return;
+                }
+                MarriageController.addEngageRequest((OfflinePlayer) sender, player);
+                player.spigot().sendMessage(getMarryComponent((Player) sender));
+            }
+        });
+        command.register();
     }
 
     private static TextComponent getMarryComponent(Player player) {

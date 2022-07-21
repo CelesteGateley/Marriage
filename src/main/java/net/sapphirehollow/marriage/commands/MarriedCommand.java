@@ -1,28 +1,28 @@
 package net.sapphirehollow.marriage.commands;
 
-import dev.jorel.commandapi.CommandAPICommand;
-import dev.jorel.commandapi.arguments.*;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.sapphirehollow.marriage.Marriage;
-import net.sapphirehollow.marriage.storage.ExecutorStorage;
 import net.sapphirehollow.marriage.storage.PlayerStorage;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
+import xyz.fluxinc.fluxcore.command.Command;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MarriedCommand {
 
-    private static Map<String, ExecutorStorage> getCommands() {
-        Map<String, ExecutorStorage> returnVal = new HashMap<>();
-        // Priest Command
-        List<Argument> arguments = new ArrayList<>();
-        arguments.add(new LiteralArgument("kiss"));
-        returnVal.put("kiss", new ExecutorStorage((sender, args) -> {
+    private static final String COMMAND = "married";
+    private static final String[] ALIASES = {};
+    private static Command command() { return new Command(COMMAND, ALIASES); }
+
+    private static Command getKissCommand() {
+        Command command = command().literal("kiss");
+        command.executor((sender, args) -> {
             if (sender instanceof Player) {
                 PlayerStorage storage = Marriage.getStorageController().getPlayerStorage((OfflinePlayer) sender);
                 for (OfflinePlayer oPlayer : storage.getAllPartners()) {
@@ -32,12 +32,13 @@ public class MarriedCommand {
                     }
                 }
             }
-        }, arguments));
+        });
+        return command;
+    }
 
-        arguments = new ArrayList<>();
-        arguments.add(new LiteralArgument("tp"));
-        arguments.add(new PlayerArgument("player"));
-        returnVal.put("tp", new ExecutorStorage((sender, args) -> {
+    private static Command getTpCommand() {
+        Command command = command().literal("tp").player("player");
+        command.executor((sender, args) -> {
             if (sender instanceof Player) {
                 Player player = (Player) args[0];
                 PlayerStorage storage = Marriage.getStorageController().getPlayerStorage((OfflinePlayer) sender);
@@ -60,35 +61,39 @@ public class MarriedCommand {
                     sender.sendMessage(Marriage.getLanguageController().generateMessage("teleportDisabled"));
                 }
             }
-        }, arguments));
+        });
+        return command;
+    }
 
-        arguments = new ArrayList<>();
-        arguments.add(new LiteralArgument("tptoggle"));
-        returnVal.put("tptoggle", new ExecutorStorage((sender, args) -> {
+    private static Command getTpToggleCommand() {
+        Command command = command().literal("tptoggle");
+        command.executor((sender, args) -> {
             if (sender instanceof Player) {
                 PlayerStorage storage = Marriage.getStorageController().getPlayerStorage((OfflinePlayer) sender);
                 boolean toggleVal = storage.toggleTeleport();
                 Marriage.getStorageController().setPlayerStorage((OfflinePlayer) sender, storage);
                 sender.sendMessage(generateToggleMessage(toggleVal ? "on" : "off"));
             }
-        }, arguments));
+        });
+        return command;
+    }
 
-        arguments = new ArrayList<>();
-        arguments.add(new LiteralArgument("color"));
-        arguments.add(new ChatColorArgument("color"));
-        returnVal.put("color", new ExecutorStorage((sender, args) -> {
+    private static Command getColorCommand() {
+        Command command = command().literal("color").color("color");
+        command.executor((sender, args) -> {
             if (sender instanceof Player) {
                 PlayerStorage storage = Marriage.getStorageController().getPlayerStorage((OfflinePlayer) sender);
                 ChatColor color = (ChatColor) args[0];
                 storage.setPreferredColor("" + color);
                 Marriage.getStorageController().setPlayerStorage((OfflinePlayer) sender, storage);
             }
-        }, arguments));
+        });
+        return command;
+    }
 
-        arguments = new ArrayList<>();
-        arguments.add(new LiteralArgument("chat"));
-        arguments.add(new GreedyStringArgument("message"));
-        returnVal.put("chat", new ExecutorStorage((sender, args) -> {
+    private static Command getChatCommand() {
+        Command command = command().literal("chat").greedy("message");
+        command.executor((sender, args) -> {
             if (sender instanceof Player) {
                 PlayerStorage storage = Marriage.getStorageController().getPlayerStorage((OfflinePlayer) sender);
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c[&f" + ((Player) sender).getDisplayName()
@@ -109,21 +114,16 @@ public class MarriedCommand {
                     }
                 }
             }
-        }, arguments));
-
-        return returnVal;
+        });
+        return command;
     }
 
-    public static void registerCommands() {
-        Map<String, ExecutorStorage> commands = getCommands();
-        for (String key : commands.keySet()) {
-            CommandAPICommand command = new CommandAPICommand("married").withAliases("m");
-            for (Argument argument : commands.get(key).getArguments()) {
-                command.withArguments(argument);
-            }
-            command.executes(commands.get(key).getExecutor());
-            command.register();
-        }
+    public static void register() {
+        getKissCommand().register();
+        getTpCommand().register();
+        getTpToggleCommand().register();
+        getColorCommand().register();
+        getChatCommand().register();
     }
 
     public static String generateToggleMessage(String status) {

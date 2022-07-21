@@ -1,42 +1,22 @@
 package net.sapphirehollow.marriage;
 
-import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import net.sapphirehollow.marriage.controllers.MarriageController;
 import net.sapphirehollow.marriage.storage.PlayerStorage;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
+import xyz.fluxinc.fluxcore.hooks.Placeholder;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class PlaceholderAPIHook extends PlaceholderExpansion {
+public class PlaceholderAPIHook extends Placeholder {
 
-
-    @Override
-    public boolean persist(){ return true; }
-
-    @Override
-    public boolean canRegister(){ return true; }
-
-    @Override
-    public String getIdentifier() {
-        return "marriage";
+    public PlaceholderAPIHook(JavaPlugin plugin) {
+        super(plugin);
     }
 
-    @Override
-    public String getAuthor() {
-        return Marriage.instance.getDescription().getAuthors().get(0);
-    }
-
-    @Override
-    public String getVersion() {
-        return Marriage.instance.getDescription().getVersion();
-    }
-
-    @Override
-    public String onPlaceholderRequest(Player player, String identifier) {
+    public String placeholder(Player player, String identifier) {
         if (player == null) return "";
         PlayerStorage storage = Marriage.getStorageController().getPlayerStorage(player);
 

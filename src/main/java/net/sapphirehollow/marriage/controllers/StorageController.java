@@ -6,7 +6,6 @@ import org.bukkit.OfflinePlayer;
 import xyz.fluxinc.fluxcore.configuration.ConfigurationManager;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public class StorageController extends ConfigurationManager<Marriage> {

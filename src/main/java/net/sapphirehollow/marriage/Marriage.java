@@ -30,12 +30,12 @@ public final class Marriage extends JavaPlugin implements Listener {
         storageController = new StorageController(this, "storage.yml");
         languageController = new LanguageManager<>(this, "lang.yml");
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null)
-            new PlaceholderAPIHook().register();
+            new PlaceholderAPIHook(this).register();
         getServer().getPluginManager().registerEvents(this, this);
-        MarryCommand.registerCommands();
-        MarriageCommand.registerCommands();
-        MarriedCommand.registerCommands();
-        DivorceCommand.registerCommands();
+        MarryCommand.register();
+        MarriageCommand.register();
+        MarriedCommand.register();
+        DivorceCommand.register();
     }
 
     public static StorageController getStorageController() { return storageController; }

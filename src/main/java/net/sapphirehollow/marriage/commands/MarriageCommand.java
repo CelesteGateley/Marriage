@@ -1,27 +1,23 @@
 package net.sapphirehollow.marriage.commands;
 
-import dev.jorel.commandapi.CommandAPICommand;
-import dev.jorel.commandapi.arguments.Argument;
-import dev.jorel.commandapi.arguments.LiteralArgument;
-import dev.jorel.commandapi.arguments.StringArgument;
 import net.sapphirehollow.marriage.Marriage;
 import net.sapphirehollow.marriage.controllers.MarriageController;
-import net.sapphirehollow.marriage.storage.ExecutorStorage;
 import net.sapphirehollow.marriage.storage.PlayerStorage;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import xyz.fluxinc.fluxcore.command.Command;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MarriageCommand {
-    private static Map<String, ExecutorStorage> getCommands() {
-        Map<String, ExecutorStorage> returnVal = new HashMap<>();
-        // Priest Command
-        List<Argument> arguments = new ArrayList<>();
-        arguments.add(new LiteralArgument("priest"));
-        arguments.add(new StringArgument("player1"));
-        arguments.add(new StringArgument("player2"));
-        returnVal.put("priest", new ExecutorStorage((sender, args) -> {
+
+    private static final String COMMAND = "marriage";
+    private static final String[] ALIASES = {};
+
+    private static Command getPriestCommand() {
+        Command command = new Command(COMMAND, ALIASES).literal("priest").string("player1").string("player2");
+        command.executor((sender, args) -> {
             if (!sender.hasPermission("marriage.priest")) {
                 sender.sendMessage(Marriage.getLanguageController().generateMessage("noPermission"));
                 return;
@@ -41,13 +37,13 @@ public class MarriageCommand {
             } else {
                 sender.sendMessage(Marriage.getLanguageController().generateMessage("marryFail"));
             }
-        }, arguments));
+        });
+        return command;
+    }
 
-        // Confirm Command
-        arguments = new ArrayList<>();
-        arguments.add(new LiteralArgument("confirm"));
-        arguments.add(new StringArgument("player"));
-        returnVal.put("confirm", new ExecutorStorage((sender, args) -> {
+    private static Command getConfirmCommand() {
+        Command command = new Command(COMMAND, ALIASES).literal("confirm").string("player");
+        command.executor((sender, args) -> {
             OfflinePlayer player = Marriage.getStorageController().getOfflinePlayer((String) args[0]);
             if (!(sender instanceof OfflinePlayer)) {
                 sender.sendMessage(Marriage.getLanguageController().generateMessage("mustBePlayer"));
@@ -62,13 +58,13 @@ public class MarriageCommand {
             } else {
                 sender.sendMessage(Marriage.getLanguageController().generateMessage("acceptFail"));
             }
-        }, arguments));
+        });
+        return command;
+    }
 
-        // Deny Command
-        arguments = new ArrayList<>();
-        arguments.add(new LiteralArgument("deny"));
-        arguments.add(new StringArgument("player"));
-        returnVal.put("deny", new ExecutorStorage((sender, args) -> {
+    private static Command getDenyCommand() {
+        Command command = new Command(COMMAND, ALIASES).literal("deny").string("player");
+        command.executor((sender, args) -> {
             OfflinePlayer player = Marriage.getStorageController().getOfflinePlayer((String) args[0]);
             if (!(sender instanceof OfflinePlayer)) {
                 sender.sendMessage(Marriage.getLanguageController().generateMessage("mustBePlayer"));
@@ -83,14 +79,13 @@ public class MarriageCommand {
             } else {
                 sender.sendMessage(Marriage.getLanguageController().generateMessage("denyFail"));
             }
-        }, arguments));
+        });
+        return command;
+    }
 
-        // Divorce
-        arguments = new ArrayList<>();
-        arguments.add(new LiteralArgument("divorce"));
-        arguments.add(new StringArgument("player1"));
-        arguments.add(new StringArgument("player2"));
-        returnVal.put("divorce", new ExecutorStorage((sender, args) -> {
+    private static Command getDivorceCommand() {
+        Command command = new Command(COMMAND, ALIASES).literal("divorce").string("player1").string("player2");
+        command.executor((sender, args) -> {
             if (!sender.hasPermission("marriage.divorce")) {
                 sender.sendMessage(Marriage.getLanguageController().generateMessage("noPermission"));
                 return;
@@ -110,33 +105,29 @@ public class MarriageCommand {
             } else {
                 sender.sendMessage(Marriage.getLanguageController().generateMessage("noDivorce"));
             }
-        }, arguments));
+        });
+        return command;
+    }
 
-        // Divorce
-        arguments = new ArrayList<>();
-        arguments.add(new LiteralArgument("spy"));
-        returnVal.put("spy", new ExecutorStorage((sender, args) -> {
+    private static Command getSpyCommand() {
+        Command command = new Command(COMMAND, ALIASES).literal("spy");
+        command.executor((sender, args) -> {
             if (sender instanceof Player) {
                 PlayerStorage storage = Marriage.getStorageController().getPlayerStorage((OfflinePlayer) sender);
                 boolean spy = storage.toggleMarriageSpy();
                 Marriage.getStorageController().setPlayerStorage((OfflinePlayer) sender, storage);
                 sender.sendMessage(generateToggleMessage(spy ? "on" : "off"));
             }
-        }, arguments));
-
-        return returnVal;
+        });
+        return command;
     }
 
-    public static void registerCommands() {
-        Map<String, ExecutorStorage> commands = getCommands();
-        for (String key : commands.keySet()) {
-            CommandAPICommand command = new CommandAPICommand("marriage");
-            for (Argument argument : commands.get(key).getArguments()) {
-                command.withArguments(argument);
-            }
-            command.executes(commands.get(key).getExecutor());
-            command.register();
-        }
+    public static void register() {
+        getPriestCommand().register();
+        getConfirmCommand().register();
+        getDenyCommand().register();
+        getDivorceCommand().register();
+        getSpyCommand().register();
     }
 
     public static String generateToggleMessage(String status) {
