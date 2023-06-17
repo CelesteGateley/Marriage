@@ -12,7 +12,7 @@
     <name>Marriage</name>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -75,8 +75,14 @@
         </dependency>
         <dependency>
             <groupId>dev.jorel</groupId>
+            <artifactId>commandapi-bukkit-core</artifactId>
+            <version>9.0.3</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>dev.jorel</groupId>
             <artifactId>commandapi-core</artifactId>
-            <version>8.3.1</version>
+            <version>9.0.3</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

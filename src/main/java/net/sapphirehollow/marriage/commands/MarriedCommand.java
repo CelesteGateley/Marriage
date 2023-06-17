@@ -40,7 +40,7 @@ public class MarriedCommand {
         Command command = command().literal("tp").player("player");
         command.executor((sender, args) -> {
             if (sender instanceof Player) {
-                Player player = (Player) args[0];
+                Player player = (Player) args.get(0);
                 PlayerStorage storage = Marriage.getStorageController().getPlayerStorage((OfflinePlayer) sender);
                 if (!(storage.isMarried(player) || storage.isEngaged(player)))  {
                     sender.sendMessage(Marriage.getLanguageController().generateMessage("tpFail"));
@@ -83,7 +83,7 @@ public class MarriedCommand {
         command.executor((sender, args) -> {
             if (sender instanceof Player) {
                 PlayerStorage storage = Marriage.getStorageController().getPlayerStorage((OfflinePlayer) sender);
-                ChatColor color = (ChatColor) args[0];
+                ChatColor color = (ChatColor) args.get(0);
                 storage.setPreferredColor("" + color);
                 Marriage.getStorageController().setPlayerStorage((OfflinePlayer) sender, storage);
             }
@@ -97,19 +97,19 @@ public class MarriedCommand {
             if (sender instanceof Player) {
                 PlayerStorage storage = Marriage.getStorageController().getPlayerStorage((OfflinePlayer) sender);
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c[&f" + ((Player) sender).getDisplayName()
-                        + "&c] " + args[0]));
+                        + "&c] " + args.get(0)));
                 for (Player player : Marriage.instance.getServer().getOnlinePlayers()) {
                     if (sender == player) continue;
                     if (storage.isEngaged(player) || storage.isMarried(player)) {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c[&f" + ((Player) sender).getDisplayName()
-                                + "&c] " + args[0]));
+                                + "&c] " + args.get(0)));
                         continue;
                     }
                     if (player.hasPermission("marriage.spy")) {
                         PlayerStorage pStore = Marriage.getStorageController().getPlayerStorage(player);
                         if (pStore.marriageSpy()) {
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&6MS&7]&c[&f" + ((Player) sender).getDisplayName()
-                                    + "&c] " + args[0]));
+                                    + "&c] " + args.get(0)));
                         }
                     }
                 }

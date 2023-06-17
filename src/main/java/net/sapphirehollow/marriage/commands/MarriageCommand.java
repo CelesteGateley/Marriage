@@ -22,8 +22,8 @@ public class MarriageCommand {
                 sender.sendMessage(Marriage.getLanguageController().generateMessage("noPermission"));
                 return;
             }
-            OfflinePlayer player1 = Marriage.getStorageController().getOfflinePlayer((String) args[0]);
-            OfflinePlayer player2 = Marriage.getStorageController().getOfflinePlayer((String) args[1]);
+            OfflinePlayer player1 = Marriage.getStorageController().getOfflinePlayer((String) args.get(0));
+            OfflinePlayer player2 = Marriage.getStorageController().getOfflinePlayer((String) args.get(1));
             boolean status = MarriageController.marryPlayers(player1, player2);
             if (status) {
                 if (player1.isOnline() && player1.getPlayer() != null) {
@@ -44,7 +44,7 @@ public class MarriageCommand {
     private static Command getConfirmCommand() {
         Command command = new Command(COMMAND, ALIASES).literal("confirm").string("player");
         command.executor((sender, args) -> {
-            OfflinePlayer player = Marriage.getStorageController().getOfflinePlayer((String) args[0]);
+            OfflinePlayer player = Marriage.getStorageController().getOfflinePlayer((String) args.get(0));
             if (!(sender instanceof OfflinePlayer)) {
                 sender.sendMessage(Marriage.getLanguageController().generateMessage("mustBePlayer"));
                 return;
@@ -65,7 +65,7 @@ public class MarriageCommand {
     private static Command getDenyCommand() {
         Command command = new Command(COMMAND, ALIASES).literal("deny").string("player");
         command.executor((sender, args) -> {
-            OfflinePlayer player = Marriage.getStorageController().getOfflinePlayer((String) args[0]);
+            OfflinePlayer player = Marriage.getStorageController().getOfflinePlayer((String) args.get(0));
             if (!(sender instanceof OfflinePlayer)) {
                 sender.sendMessage(Marriage.getLanguageController().generateMessage("mustBePlayer"));
                 return;
@@ -90,8 +90,8 @@ public class MarriageCommand {
                 sender.sendMessage(Marriage.getLanguageController().generateMessage("noPermission"));
                 return;
             }
-            OfflinePlayer player1 = Marriage.getStorageController().getOfflinePlayer((String) args[0]);
-            OfflinePlayer player2 = Marriage.getStorageController().getOfflinePlayer((String) args[1]);
+            OfflinePlayer player1 = Marriage.getStorageController().getOfflinePlayer((String) args.get(0));
+            OfflinePlayer player2 = Marriage.getStorageController().getOfflinePlayer((String) args.get(1));
             boolean status = MarriageController.divorcePlayers(player1, player2);
             if (status) {
                 if (player1.isOnline() && player1.getPlayer() != null) {

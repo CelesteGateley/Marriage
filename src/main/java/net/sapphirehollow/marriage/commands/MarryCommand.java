@@ -15,7 +15,7 @@ public class MarryCommand {
     public static void register() {
         Command command = new Command("marry").player("player");;
         command.executor((sender, args) -> {
-            Player player = (Player) args[0];
+            Player player = (Player) args.get(0);
             if (sender instanceof OfflinePlayer) {
                 if (((OfflinePlayer) sender).getUniqueId() == player.getUniqueId()) {
                     sender.sendMessage(Marriage.getLanguageController().generateMessage("marryFail"));

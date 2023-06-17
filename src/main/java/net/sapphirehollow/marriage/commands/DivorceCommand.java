@@ -14,7 +14,7 @@ public class DivorceCommand {
     public static void register() {
         Command command = new Command("divorce").player("target");
         command.executor((sender, args) -> {
-            Player player = (Player) args[0];
+            Player player = (Player) args.get(0);
             if (sender instanceof OfflinePlayer) {
                 boolean status = MarriageController.divorcePlayers((OfflinePlayer) sender, player);
                 if (status) {
